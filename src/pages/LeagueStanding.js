@@ -33,9 +33,9 @@ const LeagueStanding = () => {
   }, []);
 
   return (
-    <div className="container shadow border my-5 text-center">
-      <section className="upper-section my-3">
-        <h1 className="my-5">{leagueName} Table</h1>
+    <div className="container shadow border my-5 ">
+      <section className="upper-section my-3 text-center">
+        <h1 className="my-4">{leagueName} Table</h1>
         <h3 className="my-2">Select Seasons</h3>
         <div className="d-flex justify-content-center">
           <select
@@ -54,7 +54,7 @@ const LeagueStanding = () => {
           </select>
         </div>
       </section>
-      <section className="my-3">
+      <section className="my-5">
         <LeagueTable season={year} id={id} />
       </section>
     </div>
