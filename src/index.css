@@ -18,3 +18,26 @@ body {
 .league-title {
   min-height: 88px;
 }
+
+@media (max-width: 520px) {
+  .table {
+    font-size: 14px;
+  }
+
+  .club-img {
+    height: 1.5rem !important;
+  }
+}
+@media (max-width: 318px) {
+  .table {
+    font-size: 12px;
+  }
+
+  .club-img {
+    height: 1.3rem !important;
+  }
+
+  .rank {
+    min-width: 14px !important;
+  }
+}
