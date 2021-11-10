@@ -19,6 +19,23 @@ body {
   min-height: 88px;
 }
 
+table,
+th,
+tr,
+td,
+.card {
+  animation: on-load 1s ease;
+}
+
+@keyframes on-load {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 520px) {
   .table {
     font-size: 14px;

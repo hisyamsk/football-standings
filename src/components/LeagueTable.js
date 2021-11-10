@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+} from "react";
+import Loading from "./Loading";
 
 const url = "https://api-football-standings.azharimm.site/leagues/";
 const imgAlt =
@@ -27,7 +33,7 @@ const LeagueTable = ({ season, id }) => {
   const [standings, setStandings] = useState([]);
   const smallSize = useWindowSize();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`${url}${id}/standings?season=${season}`);
       if (!response.ok) {
@@ -36,39 +42,21 @@ const LeagueTable = ({ season, id }) => {
       const parsedData = await response.json();
       const { data } = parsedData;
 
-      // let tempStandings = []
-      // data.standings.map((club) => {
-      //   club.stats.map((stat) => {
-      //     const statDisplay = {
-      //       MP: stat[3].value,
-      //       W: stat[0].value,
-      //       D: stat[2].value,
-      //       L: stat[1].value,
-      //       GF: stat[4].value,
-      //       GA: stat[5].value,
-      //       GD: stat[9].value,
-      //       PTS: stat[6].value
-      //     }
-      //     return statDisplay;
-      //   })
-      //   const newStandings = {
-      //     note: club.note,
-      //     team: club.team,
-      //     stats: statDisplay
-      //   }
-      //   tempStandings.push(newStandings);
-      // })
-
       setStandings(data.standings);
-      console.log(data.standings);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [season, id]);
 
   useEffect(() => {
+    setLoading(true);
     fetchData();
-  }, [season]);
+  }, [season, id, fetchData]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <table className="table overflow-auto">
@@ -79,14 +67,12 @@ const LeagueTable = ({ season, id }) => {
           <th scope="col">W</th>
           <th scope="col">D</th>
           <th scope="col">L</th>
-          {!smallSize ? (
+          {!smallSize && (
             <>
               <th scope="col">GF</th>
               <th scope="col">GA</th>
               <th scope="col">GD</th>
             </>
-          ) : (
-            <></>
           )}
           <th scope="col">PTS</th>
         </tr>
@@ -124,14 +110,12 @@ const LeagueTable = ({ season, id }) => {
               <td>{club.stats[0].value}</td>
               <td>{club.stats[2].value}</td>
               <td>{club.stats[1].value}</td>
-              {!smallSize ? (
+              {!smallSize && (
                 <>
                   <td>{club.stats[4].value}</td>
                   <td>{club.stats[5].value}</td>
                   <td>{club.stats[9].value}</td>
                 </>
-              ) : (
-                <></>
               )}
               <td>{club.stats[6].value}</td>
             </tr>
